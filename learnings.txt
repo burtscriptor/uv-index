@@ -1,0 +1,19 @@
+
+    const convertGMTToLocalTime = (gmtTimeString) => {
+        const gmtDate = new Date(gmtTimeString);
+        
+        // Check if the date is valid
+        if (isNaN(gmtDate)) {
+            return { 'time': 'Invalid Date', 'date': 'Invalid Date' };
+        }
+        
+        const localDate = gmtDate.toLocaleDateString();
+        const localTime = gmtDate.toLocaleTimeString();
+        return { 'time': localTime.slice(0,2), 'date': localDate };
+    };
+
+    data.forEach((d) => {
+        const convertedTime = convertGMTToLocalTime(d.time);
+        d.localTime = convertedTime.time;
+        d.localDate = convertedTime.date;
+    });
