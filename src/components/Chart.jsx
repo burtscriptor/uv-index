@@ -3,11 +3,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { format, parseISO } from 'date-fns';
 import gradient from '../assets/uvindex.webp'
 
-const Chart = ({ data }) => {
+const Chart = ({ data, uvIndex }) => {
   // const today = new Date();
   // const endDate = new Date(today);
   // endDate.setDate(today.getDate() + 1);
-  const today = new Date();
+  const today = new Date(uvIndex.now.time);
   const endDate = new Date(today);
   endDate.setHours(today.getHours() + 12);
 
@@ -15,6 +15,8 @@ const Chart = ({ data }) => {
     const itemDate = parseISO(item.time);
     return itemDate >= today && itemDate <= endDate;
   });
+  
+  filteredData.unshift(uvIndex.now);
 
   const formatXAxis = (ticketItem) => {
     const date = parseISO(ticketItem);
@@ -38,15 +40,15 @@ const Chart = ({ data }) => {
 
   const getColor = (value) => {
     if (value >= 0 && value < 2.5) {
-      return 'lightgreen' 
+      return '#67BE4D' 
     } else if (value >= 2.5 && value < 5.5) {
-      return  'yellow' 
+      return  '#FCBC22' 
     } else if (value >= 5.5 && value < 7.5) {
-      return 'orange' 
+      return '#F66B33' 
     } else if (value >= 7.5 && value < 10.5) {
-      return  'red' 
+      return  '#ED164A' 
     } else if (value >= 10.5 && value <= 16) {
-      return  'purple' 
+      return  '#7D439B' 
     } else {
       return 'grey'
     }

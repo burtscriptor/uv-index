@@ -16,8 +16,8 @@ import shade from '../assets/sunburn.png';
 import shelter from '../assets/shelter.png';
 import shirt from '../assets/tshirt.png';
 
-const UvIndex = ({ location, setData }) => {
-  const [uvIndex, setUvIndex] = useState(null);
+const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
+ 
   const [error, setError] = useState(null);
   const [testUvi, setTestUvi] = useState(0); // State for test UVI
 
@@ -47,15 +47,15 @@ const UvIndex = ({ location, setData }) => {
 
   const getUvIndexRating = (uvi) => {
     if (uvi >= 0 && uvi < 2.5) {
-      return { rating: 'low', icon: swing, message: 'Basic precautions', color: '#20BF55', animation: 1 };
+      return { rating: 'Low', icon: swing, message: 'Basic precautions', color: '#67BE4D', animation: 1 };
     } else if (uvi >= 2.5 && uvi < 5.5) {
-      return { rating: 'moderate', icon: moderate, message: 'Standard precautions', color: 'yellow', animation: 2.5 };
+      return { rating: 'Moderate', icon: moderate, message: 'Standard precautions', color: '#FCBC22', animation: 2.5 };
     } else if (uvi >= 5.5 && uvi < 7.5) {
-      return { rating: 'high', icon: high, message: 'Slip, slop, slap, seek shade at midday', color: 'orange', animation: 5.5 };
+      return { rating: 'High', icon: high, message: 'Slip, slop, slap, seek shade at midday', color: '#F66B33', animation: 5.5 };
     } else if (uvi >= 7.5 && uvi < 10.5) {
-      return { rating: 'very high', icon: veryhigh, message: 'Avoid the outdoors at midday, slip, slop, slap is a must!', color: 'red', animation: 7.5 };
+      return { rating: 'Very high', icon: veryhigh, message: 'Avoid the outdoors at midday, slip, slop, slap is a must!', color: '#ED164A', animation: 7.5 };
     } else if (uvi >= 10.5 && uvi <= 16) {
-      return { rating: 'extreme', icon: extreme, message: 'Avoid the outdoors at midday, slip, slop, slap is a must!', color: 'purple', animation: 10.5 };
+      return { rating: 'Extreme', icon: extreme, message: 'Avoid the outdoors at midday, slip, slop, slap is a must!', color: '#7D439B', animation: 10.5 };
     } else {
       return { rating: 'unknown', icon: moderate, message: 'No data', color: 'grey' };
     }
@@ -79,14 +79,6 @@ const UvIndex = ({ location, setData }) => {
       localTimeString = convertGMTToLocalTime(uvIndex.now.time);
     }
   }
-
-
-  
-    const style = {
-        color: color,
-        borderBottom: `3px solid ${color}`,
-        animation: 'flashBorder  1s infinite'
-    }
   
 
   return (
@@ -100,15 +92,24 @@ const UvIndex = ({ location, setData }) => {
       </div>
       {/* <div className='item item-3'></div> */}
       <div className='item item-5'>
+       
+      <p className='item-5 u' style={{ color: 'white' }}>{uvi} UVI</p>
+      
+        {icon && <img className='rating-icon' src={icon} alt='UV Rating icon' />}
+       
         <p className='item-5 text'
           style={{
-            color: color
+            color: 'white',
+            backgroundColor: color,
+            paddingTop: 'none',
+            paddingLeft: '20px',
+            paddingBottom: '35px',
+            paddingRight: '20px',
           }}
         >
-          <u>{rating}</u>
+          {rating}
         </p>
-        {icon && <img className='rating-icon' src={icon} alt='UV Rating icon' />}
-        <p className='item-5 u' style={{ color: color }}>{uvi} UVI</p>
+        
       </div>
       {error ? (
         <p style={{ color: 'red' }}>{error}</p>
@@ -133,7 +134,7 @@ const UvIndex = ({ location, setData }) => {
           </h4>
         </div>
       )}
-      {/* <div className='item'>
+      <div className='item'>
         <label>Test UVI: {testUvi}</label>
         <input
           type='range'
@@ -143,7 +144,7 @@ const UvIndex = ({ location, setData }) => {
           value={testUvi}
           onChange={(e) => setTestUvi(Number(e.target.value))}
         />
-      </div> */}
+      </div>
     </div>
     </ResponsiveContainer>
   );
