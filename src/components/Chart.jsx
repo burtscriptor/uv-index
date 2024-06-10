@@ -18,7 +18,8 @@ const Chart = ({ data }) => {
 
   const formatXAxis = (ticketItem) => {
     const date = parseISO(ticketItem);
-    return `${format(date, 'EEE')} - ${format(date, 'HH:mm')}`;
+    return ` ${format(date, 'HH:mm')}`;
+    // return `${format(date, 'EEE')} - ${format(date, 'HH:mm')}`;
   };
 
   const CustomTooltip = ({ active, payload, label }) => {
@@ -86,10 +87,11 @@ const Chart = ({ data }) => {
         </BarChart>
       </ResponsiveContainer>
       </div>
-      
+     
       <div className='chartitem-3'>
         <img src={gradient}></img>
       </div>
+      
     </div>
   );
 };
