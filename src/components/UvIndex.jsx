@@ -3,16 +3,15 @@ import axios from 'axios';
 import { ResponsiveContainer } from 'recharts';
 
 import glasses from '../assets/sunglasses.png';
-import low from '../assets/low.png';
+
 import logo from '../assets/logo.png';
-import moderate from '../assets/moderate.png';
+import moderate from '../assets/moderate1.png';
 import high from '../assets/high.png';
 import veryhigh from '../assets/veryhigh.png';
 import extreme from '../assets/extreme.png';
 import swing from '../assets/swing.png';
 import sunscreen from '../assets/sunscreen.png';
 import hat from '../assets/pamela-hat.png';
-import shade from '../assets/sunburn.png';
 import shelter from '../assets/shelter.png';
 import shirt from '../assets/tshirt.png';
 
@@ -84,36 +83,38 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
   return (
     <ResponsiveContainer>
     <div className='container'>
+        <div className='row1'>
       <div className='item item-1'>
         <img src={logo} className='logo' alt='UV Index logo' />
       </div>
       <div className='item item-2'>
         <h1>Where's the UV rating at?</h1>
       </div>
-      {/* <div className='item item-3'></div> */}
-      <div className='item item-5'>
-       
-      <p className='item-5 u' style={{ color: 'white' }}>{uvi} UVI</p>
+      </div>
+
+    <div className='row2'>
       
-        {icon && <img className='rating-icon' src={icon} alt='UV Rating icon' />}
-       
-        <p className='item-5 text'
+      <div className='rating'>
+      <p className='text'
           style={{
             color: 'white',
             backgroundColor: color,
-            paddingTop: 'none',
-            paddingLeft: '20px',
-            paddingBottom: '35px',
-            paddingRight: '20px',
           }}
         >
           {rating}
         </p>
-        
+        </div>
+
+      <p className='item-5 u' style={{ color: 'white' }}>{uvi} UVI</p>
+      
+        {icon && <img className='rating-icon' src={icon} alt='UV Rating icon' />}
+     
       </div>
       {error ? (
         <p style={{ color: 'red' }}>{error}</p>
+       
       ) : (
+       
         <div className='item item-4'>
           <h4>
             {uvIndex ? (
