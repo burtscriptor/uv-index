@@ -65,12 +65,12 @@ const Chart = ({ data, uvIndex }) => {
             top: 65,
             right: 30,
             left: 30,
-            bottom: 50, // Increased bottom margin to provide space for the label
+            bottom: 50, 
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" tickFormatter={formatXAxis}>
-            {/* <Label value="Two day forecast" offset={-20} position="insideBottom" /> */}
+         
           </XAxis>
           <YAxis ticks={[1, 2, 3, 4, 5, 6, 7, 8, 9]}>
             <Label angle={-90} position="insideLeft" style={{ textAnchor: 'middle' }}>
