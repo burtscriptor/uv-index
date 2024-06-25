@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ResponsiveContainer } from 'recharts';
+
 
 import glasses from '../assets/sunglasses.png';
 
@@ -15,10 +15,13 @@ import hat from '../assets/pamela-hat.png';
 import shelter from '../assets/shelter.png';
 import shirt from '../assets/tshirt.png';
 
+const apiKey = process.env.REACT_APP_API_KEY;
+
 const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
  
   const [error, setError] = useState(null);
   const [testUvi, setTestUvi] = useState(0); // State for test UVI
+  const [city, setCity] = useState(null)
 
   useEffect(() => {
     const fetchUVIndex = async () => {
@@ -36,6 +39,23 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
       fetchUVIndex();
     }
   }, [location, setData]);
+
+  useEffect(() => {
+    const city = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.api-ninjas.com/v1/reversegeocoding?lat=${location.latitude}&lon=${location.longitude}`
+        , { headers: { 'X-Api-Key' : apiKey } } )
+        setCity(response.data[0].name)
+
+
+      } catch (error) {
+        console.log('Err from city', error)
+      }
+      
+    } 
+  city();
+}, [])
 
   const convertGMTToLocalTime = (gmtTimeString) => {
     const gmtDate = new Date(gmtTimeString);
@@ -81,7 +101,7 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
   
 
   return (
-    <ResponsiveContainer>
+    
     <div className='container'>
         <div className='row1'>
       <div className='item item-1'>
@@ -92,9 +112,14 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
       </div>
       </div>
 
+      <div className='city'>
+      <h1>{city}</h1>
+      </div>
+
     <div className='row2'>
       
       <div className='rating'>
+    
       <p className='text'
           style={{
             color: 'white',
@@ -121,13 +146,13 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
               <span>
                 <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={animation >= 1 ? 'rating-icon interactive' : 'rating-icon'}   src={glasses} alt='sunglasses' />
                 {animation >= 2.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={shirt} alt='t-shirt' /> 
-                : <img className='rating-icon' src={shirt}></img> }
-                {animation >= 2.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={sunscreen} alt='t-shirt' /> 
+                : <img className='rating-icon' src={shirt} alt="t-shirt"></img> }
+                {animation >= 2.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={sunscreen} alt='sunscreen' /> 
                 : <img className='rating-icon' src={sunscreen}></img> }
-                {animation >= 2.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={hat} alt='t-shirt' /> 
+                {animation >= 2.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={hat} alt='hat' /> 
                 : <img className='rating-icon' src={hat}></img> }
-                {animation >= 7.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={shelter} alt='t-shirt' /> 
-                : <img className='rating-icon' src={shelter}></img> }
+                {animation >= 7.5 ? <img style={{ border: `3px solid ${color}`, borderRadius: '50%' }} className={'rating-icon interactive'} src={shelter} alt='shelter' /> 
+                : <img className='rating-icon' src={shelter} alt='shelter' ></img> }
               </span>
             ) : (
               ''
@@ -135,7 +160,7 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
           </h4>
         </div>
       )}
-      <div className='item'>
+      <div className='item-slider'>
         <label>Test UVI: {testUvi}</label>
         <input
           type='range'
@@ -147,7 +172,7 @@ const UvIndex = ({ location, setData, setUvIndex, uvIndex }) => {
         />
       </div>
     </div>
-    </ResponsiveContainer>
+ 
   );
 };
 
