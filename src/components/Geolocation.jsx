@@ -7,7 +7,6 @@ const Geolocation = ({ setLocation }) => {
 
         function success(position) {
             const { coords } = position;
-            console.log(coords);
             setLocation({ latitude: coords.latitude, longitude: coords.longitude });
         };
 
